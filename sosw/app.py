@@ -175,6 +175,11 @@ class Processor:
                 raise RuntimeError(f"Failed to import {service} from {some_module}. "
                                    f"Tried suffixes for class: {client_suffixes}")
 
+    def get_client(self, name):
+        if not getattr(self, name, None):
+            setattr(self, name, self.register_client(name))
+
+        return getattr(self, name)
 
     def __call__(self, event):
         """
